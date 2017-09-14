@@ -3,7 +3,7 @@ title:  "The Single Responsibility Principle"
 date:   2017-09-14 16:41:21 +0100
 ---
 
-The Single Responsibility Principle is the first principle mentioned in the famous SOLID methodology that we should try and follow whenever we build software. Building software in a SOLID way allows us to keep our code flexible, maintainable and most importantly of all – testable!
+Dani <3 - The Single Responsibility Principle is the first principle mentioned in the famous SOLID methodology that we should try and follow whenever we build software. Building software in a SOLID way allows us to keep our code flexible, maintainable and most importantly of all – testable!
 
 The Single Responsibility Principle at heart is a very, very simple principle to understand and simply states that:
 
