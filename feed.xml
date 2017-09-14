@@ -14,11 +14,11 @@
     <link rel="alternate" href="http://blog.url.com/the-single-responsibility-principle/"/>
     <id>http://blog.url.com/the-single-responsibility-principle/</id>
     <published>2017-09-14T16:41:21+01:00</published>
-    <updated>2017-09-14T21:01:34+01:00</updated>
+    <updated>2017-09-14T21:06:29+01:00</updated>
     <author>
       <name>Article Author</name>
     </author>
-    <content type="html">&lt;p&gt;Dani &amp;lt;3 - The Single Responsibility Principle is the first principle mentioned in the famous SOLID methodology that we should try and follow whenever we build software. Building software in a SOLID way allows us to keep our code flexible, maintainable and most importantly of all – testable!&lt;/p&gt;
+    <content type="html">&lt;p&gt;The Single Responsibility Principle is the first principle mentioned in the famous SOLID methodology that we should try and follow whenever we build software. Building software in a SOLID way allows us to keep our code flexible, maintainable and most importantly of all – testable!&lt;/p&gt;
 
 &lt;p&gt;The Single Responsibility Principle at heart is a very, very simple principle to understand and simply states that:&lt;/p&gt;
 
