@@ -1,9 +1,10 @@
 ---
 title:  "The Single Responsibility Principle"
 date:   2017-09-14 16:41:21 +0100
+layout: "post"
 ---
 
-test. The Single Responsibility Principle is the first principle mentioned in the famous SOLID methodology that we should try and follow whenever we build software. Building software in a SOLID way allows us to keep our code flexible, maintainable and most importantly of all – testable!
+**The** _Single_ Responsibility Principle is the first principle mentioned in the famous SOLID methodology that we should try and follow whenever we build software. Building software in a SOLID way allows us to keep our code flexible, maintainable and most importantly of all – testable!
 
 The Single Responsibility Principle at heart is a very, very simple principle to understand and simply states that:
 
@@ -11,7 +12,7 @@ The Single Responsibility Principle at heart is a very, very simple principle to
 
 Simple, right? So why do we constantly see (or code ourselves), code that looks like the example below?
 
-```php?start_inline=true	
+```php	
 class AccountingReport {
  
    private $db;
@@ -42,7 +43,7 @@ The class above violates a lot more than just the Single Responsibility Principl
 
 First of all, this breaks the Dependency Inversion Principle as we are now completely and utterly dependent upon the concrete Database class, so let’s refactor that out and typehint to an abstraction and as such inverting the dependency and fixing this SOLID violation:
 
-```php?start_inline=true	
+```php
 class AccountingReport {
  
    private $db;
@@ -68,7 +69,7 @@ So, I hear you ask, what do we do? Well, let’s refactor again. First of all, l
 
 Our class should not be interested in a database, it should only be concerned with data and shouldn’t care how it gets this data. For ease of argument we are just going to pass in an array of data but you could pass in different ReportData objects if needed. Our class now looks like the below:
 
-```php?start_inline=true
+```php
 class AccountingReport {
  
    private $data = [];
@@ -87,7 +88,7 @@ We are going to use something called the Strategy pattern which will enable us t
 
 In our case, the Strategy objects will be represented by different formatting objects. As such, our final base AccountingReport class will look as simple as the below:
 
-```php?start_inline=true	
+```php	
 class AccountingReport {
  
    private $data = [];
@@ -115,7 +116,7 @@ This class now meets our SOLID requirements as we now have no reason to open thi
 
 Now all that’s left do is create our ReportFormatter interface and our different Formatter classes (which are our strategy objects), for example:
 
-```php?start_inline=true	
+```php	
 interface ReportFormatter {
    public function format($data);
 }
@@ -138,7 +139,7 @@ The good news is that all our formatter classes also follow the SOLID principles
 If we want to create a json format class then we only need to create a new Strategy formatting object and inject it.
 
 Now, let’s see the code example to use it all:
-```php?start_inline=true
+```php
 $account_data = [
    'john' => ['salary' => '50000', 'employment_type' => 'full time'],
    'bob' => ['salary' => '25000', 'employment_type' => 'part time']

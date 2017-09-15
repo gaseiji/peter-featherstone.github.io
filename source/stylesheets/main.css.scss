@@ -1,0 +1,15 @@
+@import "normalise";
+@import "skeleton";
+@import "highlighting";
+
+footer.container {
+	text-align: center;
+	padding-bottom: 15px;
+	font-size: 13px;
+}
+
+#social-links {
+	position: fixed;
+	top: 15px;
+	right: 15px;
+}

@@ -7,34 +7,38 @@
 
     <title>Blog Title<%= ' - ' + current_article.title unless current_article.nil? %></title>
     <%= feed_tag :atom, "#{blog.options.prefix.to_s}/feed.xml", title: "Atom Feed" %>
+    <%= stylesheet_link_tag '//fonts.googleapis.com/css?family=Raleway:400,300,600' %>
+    <%= stylesheet_link_tag 'main' %>
   </head>
   <body>
 
-    <div id="main" role="main">
-      <%= yield %>
+  <nav>
+    <div class="container">
+      <div class="row">
+        <div class="twelve columns">
+          <ul class="navbar-list">
+            <li class="navbar-item"><a class="navbar-link" href"/">Home</a></li>
+            <li class="navbar-item"><a class="navbar-link" href"/about">About</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+    <div id="main" role="main" class="container">
+      <div class="row">
+        <div class="twelve columns">
+          <%= yield %>
+        </div>
+      </div>
     </div>
 
-    <aside>
-      <h2>Recent Articles</h2>
-      <ol>
-        <% blog.articles[0...10].each do |article| %>
-          <li><%= link_to article.title, article %> <span><%= article.date.strftime('%b %e') %></span></li>
-        <% end %>
-      </ol>
-
-      <h2>Tags</h2>
-      <ol>
-        <% blog.tags.each do |tag, articles| %>
-          <li><%= link_to "#{tag} (#{articles.size})", tag_path(tag) %></li>
-        <% end %>
-      </ol>
-
-      <h2>By Year</h2>
-      <ol>
-        <% blog.articles.group_by {|a| a.date.year }.each do |year, articles| %>
-          <li><%= link_to "#{year} (#{articles.size})", blog_year_path(year) %></li>
-        <% end %>
-      </ol>
-    </aside>
+    <footer class="container">
+      <div class="row">
+        <div class="twelve columns">
+          Made with &hearts; by Me using <a href="https://middlemanapp.com/">Middleman</a> & hosted on <a href="https://pages.github.com/">GitHub Pages</a>.<br />
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
