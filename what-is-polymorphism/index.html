@@ -1,0 +1,59 @@
+<!doctype html> <html> <head> <meta charset=utf-8 /> <meta http-equiv=X-UA-Compatible content='IE=edge;chrome=1'/> <meta name=viewport content="width=device-width, initial-scale=1"> <title>Blog Title - What is Polymorphism</title> <link rel=alternate type="application/atom+xml" title="Atom Feed" href="/feed.xml"/> <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel=stylesheet /> <link href="/stylesheets/main.css" rel=stylesheet /> </head> <body> <nav> <div class=container> <div class=row> <div class="twelve columns"> <ul class=navbar-list> <li class=navbar-item><a class=navbar-link href"/">Home</a></li> <li class=navbar-item><a class=navbar-link href"/about">About</a></li> </ul> </div> </div> </div> </nav> <div id=main role=main class=container> <div class=row> <div class="twelve columns"> <article> <h1>What is Polymorphism</h1> <p>Polymorphism, in Greek, literally means “many forms”, but what on earth does that mean in regards to computer software and why should we care?</p> <p>Polymorphism is one of the 4 basic principles of Object Oriented Programming and makes our code extremely flexible and modular.</p> <blockquote> <p>Polymorphism means that the sender of a stimulus does not need to know the receiving instance’s class. The receiving instance can belong to an arbitrary class.</p> </blockquote> <p>Ivar Jackobson, Object-Oriented Software Engineering – Page 55</p> <p>What this means is that the function, class method etc. that sends the stimulus doesn’t care the exact concrete class it is calling just that it can respond to a particular method.</p> <p>Let’s look at a use case to build a form with an Input and TextArea to explain this point.</p> <p>First, we define a FormElement interface to represent each form element and to ensure that a contract is defined and that polymorphism is made possible.</p> <div class=highlight><pre class="highlight php"><code><span class="k">interface</span> <span class="nx">FormElement</span> <span class="p">{</span>
+   <span class="k">public</span> <span class="k">function</span> <span class="nf">render</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div> <p>Now, lets create our concrete form element classes for an Input and a TextArea. You can ignore the invalidity or lack of names, values etc. for now as this is not a fundamental part of this principle and is such irrelevant here.</p> <div class=highlight><pre class="highlight php"><code><span class="k">class</span> <span class="nc">Input</span> <span class="k">implements</span> <span class="nx">FormElement</span> <span class="p">{</span>
+   <span class="k">public</span> <span class="k">function</span> <span class="nf">render</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="s1">'&lt;input type="text" /&gt;'</span><span class="p">;</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><div class=highlight><pre class="highlight php"><code><span class="k">class</span> <span class="nc">TextArea</span> <span class="k">implements</span> <span class="nx">FormElement</span> <span class="p">{</span>
+   <span class="k">public</span> <span class="k">function</span> <span class="nf">render</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="s1">'&lt;textarea&gt;&lt;/textarea&gt;'</span><span class="p">;</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div> <p>Now we can create a form class that acts as a form component collection, adding form components as we go which finally renders all our form elements and could look like the below:</p> <div class=highlight><pre class="highlight php"><code><span class="k">class</span> <span class="nc">Form</span> <span class="p">{</span>
+
+   <span class="k">protected</span> <span class="nv">$components</span> <span class="o">=</span> <span class="p">[];</span>
+
+   <span class="k">public</span> <span class="k">function</span> <span class="nf">addComponent</span><span class="p">(</span><span class="nx">FormElement</span> <span class="nv">$component</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">components</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$component</span><span class="p">;</span>
+   <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div> <p>Nothing special about the class above, the Form class allows us to add any component that implements the FormComponent interface which means we know for sure that each component will have a render() function and as such we can use polymorphism to render our form elements, the polymorphic part is highlighted below:</p> <div class=highlight><pre class="highlight php"><code><span class="k">class</span> <span class="nc">Form</span> <span class="p">{</span>
+
+   <span class="k">protected</span> <span class="nv">$components</span> <span class="o">=</span> <span class="p">[];</span>
+
+   <span class="k">public</span> <span class="k">function</span> <span class="nf">addComponent</span><span class="p">(</span><span class="nx">FormElement</span> <span class="nv">$component</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">components</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$component</span><span class="p">;</span>
+   <span class="p">}</span>
+
+   <span class="k">public</span> <span class="k">function</span> <span class="nf">render</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">foreach</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">components</span> <span class="k">as</span> <span class="nv">$component</span><span class="p">)</span>
+         <span class="k">echo</span> <span class="nv">$component</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">();</span>
+   <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div> <p>As you can see above, the calling code (the Form class) doesn’t care what component is used (Input, TextArea, Select, Submit, Button etc.), it just knows it will have a render() method available to use.</p> <p>The code can then be built and called like this:</p> <div class=highlight><pre class="highlight php"><code><span class="nv">$form</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Form</span><span class="p">;</span>
+<span class="nv">$form</span><span class="o">-&gt;</span><span class="na">addComponent</span><span class="p">(</span><span class="k">new</span> <span class="nx">Input</span><span class="p">);</span>
+<span class="nv">$form</span><span class="o">-&gt;</span><span class="na">addComponent</span><span class="p">(</span><span class="k">new</span> <span class="nx">TextArea</span><span class="p">);</span>
+<span class="nv">$form</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">();</span>
+</code></pre></div> <p>There are a lot of nice side effects of this, as it means we don’t need to modify our calling code when we add more classes to deal with this. If you have switch statements in your code it’s usually a sign that you need to refactor to polymorphism, for example the below shows how the above may be built without polymorphism (again, highlighted below):</p> <div class=highlight><pre class="highlight php"><code><span class="k">class</span> <span class="nc">Form</span> <span class="p">{</span>
+
+   <span class="k">protected</span> <span class="nv">$components</span> <span class="o">=</span> <span class="p">[];</span>
+
+   <span class="k">public</span> <span class="k">function</span> <span class="nf">addComponent</span><span class="p">(</span><span class="nv">$component</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">components</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$component</span><span class="p">;</span>
+   <span class="p">}</span>
+
+   <span class="k">public</span> <span class="k">function</span> <span class="nf">render</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">foreach</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">components</span> <span class="k">as</span> <span class="nv">$component</span><span class="p">)</span><span class="o">:</span>
+         <span class="k">switch</span><span class="p">(</span><span class="nb">get_class</span><span class="p">(</span><span class="nv">$component</span><span class="p">))</span><span class="o">:</span>
+            <span class="k">case</span> <span class="s1">'Input'</span> <span class="o">:</span> <span class="nv">$component</span><span class="o">-&gt;</span><span class="na">displayInput</span><span class="p">();</span> <span class="k">break</span><span class="p">;</span>
+            <span class="k">case</span> <span class="s1">'TextArea'</span> <span class="o">:</span> <span class="nv">$component</span><span class="o">-&gt;</span><span class="na">displayTextArea</span><span class="p">();</span> <span class="k">break</span><span class="p">;</span>
+         <span class="k">endswitch</span><span class="p">;</span>
+      <span class="k">endforeach</span><span class="p">;</span>
+   <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div> <p>This also now breaks the Open/Closed Principle as if we add a new form component we will need to open up this class and add a new line to our case statement, whereas before we could add new elements at ease.</p> <p>There are many other types of Polymorphism but I believe this is a good, practical overview to get you started.</p> </article> </div> </div> </div> <footer class=container> <div class=row> <div class="twelve columns"> Made with &hearts; by Me using <a href="https://middlemanapp.com/">Middleman</a> & hosted on <a href="https://pages.github.com/">GitHub Pages</a>.<br/> </div> </div> </footer> </body> </html>

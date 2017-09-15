@@ -5,73 +5,178 @@
   <id>http://blog.url.com/</id>
   <link href="http://blog.url.com/"/>
   <link href="http://blog.url.com/feed.xml" rel="self"/>
-  <updated>2017-09-14T16:41:21+01:00</updated>
+  <updated>2017-09-15T17:16:00+01:00</updated>
   <author>
     <name>Blog Author</name>
   </author>
+  <entry>
+    <title>About</title>
+    <link rel="alternate" href="http://blog.url.com/about/"/>
+    <id>http://blog.url.com/about/</id>
+    <published>2017-09-15T17:16:00+01:00</published>
+    <updated>2017-09-15T17:18:38+01:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <content type="html"></content>
+  </entry>
+  <entry>
+    <title>What is Polymorphism</title>
+    <link rel="alternate" href="http://blog.url.com/what-is-polymorphism/"/>
+    <id>http://blog.url.com/what-is-polymorphism/</id>
+    <published>2017-09-15T15:08:00+01:00</published>
+    <updated>2017-09-15T16:45:03+01:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <content type="html">&lt;p&gt;Polymorphism, in Greek, literally means “many forms”, but what on earth does that mean in regards to computer software and why should we care?&lt;/p&gt;
+
+&lt;p&gt;Polymorphism is one of the 4 basic principles of Object Oriented Programming and makes our code extremely flexible and modular.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Polymorphism means that the sender of a stimulus does not need to know the receiving instance’s class. The receiving instance can belong to an arbitrary class.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Ivar Jackobson, Object-Oriented Software Engineering – Page 55&lt;/p&gt;
+
+&lt;p&gt;What this means is that the function, class method etc. that sends the stimulus doesn’t care the exact concrete class it is calling just that it can respond to a particular method.&lt;/p&gt;
+
+&lt;p&gt;Let’s look at a use case to build a form with an Input and TextArea to explain this point.&lt;/p&gt;
+
+&lt;p&gt;First, we define a FormElement interface to represent each form element and to ensure that a contract is defined and that polymorphism is made possible.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight php"&gt;&lt;code&gt;&lt;span class="k"&gt;interface&lt;/span&gt; &lt;span class="nx"&gt;FormElement&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+   &lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;render&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Now, lets create our concrete form element classes for an Input and a TextArea. You can ignore the invalidity or lack of names, values etc. for now as this is not a fundamental part of this principle and is such irrelevant here.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight php"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Input&lt;/span&gt; &lt;span class="k"&gt;implements&lt;/span&gt; &lt;span class="nx"&gt;FormElement&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+   &lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;render&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s1"&gt;'&amp;lt;input type="text" /&amp;gt;'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+   &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre class="highlight php"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;TextArea&lt;/span&gt; &lt;span class="k"&gt;implements&lt;/span&gt; &lt;span class="nx"&gt;FormElement&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+   &lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;render&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s1"&gt;'&amp;lt;textarea&amp;gt;&amp;lt;/textarea&amp;gt;'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+   &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Now we can create a form class that acts as a form component collection, adding form components as we go which finally renders all our form elements and could look like the below:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight php"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Form&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+
+   &lt;span class="k"&gt;protected&lt;/span&gt; &lt;span class="nv"&gt;$components&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[];&lt;/span&gt;
+
+   &lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;addComponent&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;FormElement&lt;/span&gt; &lt;span class="nv"&gt;$component&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;components&lt;/span&gt;&lt;span class="p"&gt;[]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;$component&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+   &lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Nothing special about the class above, the Form class allows us to add any component that implements the FormComponent interface which means we know for sure that each component will have a render() function and as such we can use polymorphism to render our form elements, the polymorphic part is highlighted below:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight php"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Form&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+
+   &lt;span class="k"&gt;protected&lt;/span&gt; &lt;span class="nv"&gt;$components&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[];&lt;/span&gt;
+
+   &lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;addComponent&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;FormElement&lt;/span&gt; &lt;span class="nv"&gt;$component&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;components&lt;/span&gt;&lt;span class="p"&gt;[]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;$component&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+   &lt;span class="p"&gt;}&lt;/span&gt;
+
+   &lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;render&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="k"&gt;foreach&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;components&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nv"&gt;$component&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+         &lt;span class="k"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$component&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;render&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+   &lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;As you can see above, the calling code (the Form class) doesn’t care what component is used (Input, TextArea, Select, Submit, Button etc.), it just knows it will have a render() method available to use.&lt;/p&gt;
+
+&lt;p&gt;The code can then be built and called like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight php"&gt;&lt;code&gt;&lt;span class="nv"&gt;$form&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Form&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="nv"&gt;$form&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;addComponent&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Input&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="nv"&gt;$form&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;addComponent&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;TextArea&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="nv"&gt;$form&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;render&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;There are a lot of nice side effects of this, as it means we don’t need to modify our calling code when we add more classes to deal with this. If you have switch statements in your code it’s usually a sign that you need to refactor to polymorphism, for example the below shows how the above may be built without polymorphism (again, highlighted below):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight php"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Form&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+
+   &lt;span class="k"&gt;protected&lt;/span&gt; &lt;span class="nv"&gt;$components&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[];&lt;/span&gt;
+
+   &lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;addComponent&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$component&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;components&lt;/span&gt;&lt;span class="p"&gt;[]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;$component&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+   &lt;span class="p"&gt;}&lt;/span&gt;
+
+   &lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;render&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="k"&gt;foreach&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;components&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nv"&gt;$component&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+         &lt;span class="k"&gt;switch&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;get_class&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$component&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+            &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="s1"&gt;'Input'&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nv"&gt;$component&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;displayInput&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="k"&gt;break&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+            &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="s1"&gt;'TextArea'&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nv"&gt;$component&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;displayTextArea&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="k"&gt;break&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+         &lt;span class="k"&gt;endswitch&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="k"&gt;endforeach&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+   &lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This also now breaks the Open/Closed Principle as if we add a new form component we will need to open up this class and add a new line to our case statement, whereas before we could add new elements at ease.&lt;/p&gt;
+
+&lt;p&gt;There are many other types of Polymorphism but I believe this is a good, practical overview to get you started.&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>The Single Responsibility Principle</title>
     <link rel="alternate" href="http://blog.url.com/the-single-responsibility-principle/"/>
     <id>http://blog.url.com/the-single-responsibility-principle/</id>
     <published>2017-09-14T16:41:21+01:00</published>
-    <updated>2017-09-14T21:13:03+01:00</updated>
+    <updated>2017-09-15T16:00:08+01:00</updated>
     <author>
       <name>Article Author</name>
     </author>
-    <content type="html">&lt;p&gt;test. The Single Responsibility Principle is the first principle mentioned in the famous SOLID methodology that we should try and follow whenever we build software. Building software in a SOLID way allows us to keep our code flexible, maintainable and most importantly of all – testable!&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;strong&gt;The&lt;/strong&gt; &lt;em&gt;Single&lt;/em&gt; Responsibility Principle is the first principle mentioned in the famous SOLID methodology that we should try and follow whenever we build software. Building software in a SOLID way allows us to keep our code flexible, maintainable and most importantly of all – testable!&lt;/p&gt;
 
 &lt;p&gt;The Single Responsibility Principle at heart is a very, very simple principle to understand and simply states that:&lt;/p&gt;
 
 &lt;blockquote&gt;
-  &lt;p&gt;A class should have only one reason to change&lt;/p&gt;
+&lt;p&gt;A class should have only one reason to change&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;p&gt;Simple, right? So why do we constantly see (or code ourselves), code that looks like the example below?&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight php"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;AccountingReport&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
 
-&lt;p&gt;```php?start_inline=true	
-class AccountingReport {&lt;/p&gt;
+   &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="nv"&gt;$db&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 
-&lt;p&gt;private $db;&lt;/p&gt;
+   &lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;__construct&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;db&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Database&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;      
+   &lt;span class="p"&gt;}&lt;/span&gt;
 
-&lt;p&gt;public function __construct() {
-      $this-&amp;gt;db = new Database;    &lt;br /&gt;
-   }&lt;/p&gt;
+   &lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;buildXmlReport&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;db&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;getAccountData&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+      &lt;span class="c1"&gt;// Functionality to build XML data and return
+&lt;/span&gt;   &lt;span class="p"&gt;}&lt;/span&gt;
 
-&lt;p&gt;public function buildXmlReport() {
-      $data = $this-&amp;gt;db-&amp;gt;getAccountData();
-      // Functionality to build XML data and return
-   }&lt;/p&gt;
+   &lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;buildCsvReport&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;db&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;getAccountData&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+      &lt;span class="c1"&gt;// Functionality to build CSV data and return
+&lt;/span&gt;   &lt;span class="p"&gt;}&lt;/span&gt;
 
-&lt;p&gt;public function buildCsvReport() {
-      $data = $this-&amp;gt;db-&amp;gt;getAccountData();
-      // Functionality to build CSV data and return
-   }&lt;/p&gt;
+   &lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;buildHtmlTableReport&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;db&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;getAccountData&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+      &lt;span class="c1"&gt;// Functionality to build HTML data and return
+&lt;/span&gt;   &lt;span class="p"&gt;}&lt;/span&gt;
 
-&lt;p&gt;public function buildHtmlTableReport() {
-      $data = $this-&amp;gt;db-&amp;gt;getAccountData();
-      // Functionality to build HTML data and return
-   }&lt;/p&gt;
-
-&lt;p&gt;}
-```&lt;/p&gt;
-
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;The class above violates a lot more than just the Single Responsibility Principle but let’s work with it and refactor to a SOLID class design.&lt;/p&gt;
 
 &lt;p&gt;First of all, this breaks the Dependency Inversion Principle as we are now completely and utterly dependent upon the concrete Database class, so let’s refactor that out and typehint to an abstraction and as such inverting the dependency and fixing this SOLID violation:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight php"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;AccountingReport&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
 
-&lt;p&gt;```php?start_inline=true	
-class AccountingReport {&lt;/p&gt;
+   &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="nv"&gt;$db&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 
-&lt;p&gt;private $db;&lt;/p&gt;
+   &lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;__construct&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;DatabaseInterface&lt;/span&gt; &lt;span class="nv"&gt;$db&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;db&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;$db&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;      
+   &lt;span class="p"&gt;}&lt;/span&gt; 
 
-&lt;p&gt;public function __construct(DatabaseInterface $db) {
-      $this-&amp;gt;db = $db;    &lt;br /&gt;
-   }&lt;/p&gt;
-
-&lt;p&gt;// Rest of methods above removed for brevity
-}
-```&lt;/p&gt;
-
+   &lt;span class="c1"&gt;// Rest of methods above removed for brevity
+&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Much better, but alas! What does an accounting report have to do with a Database? This is where we should realise that the Single Responsibility Principle has been violated as the class will now have to change under the following circumstances:&lt;/p&gt;
 
 &lt;p&gt;*Our database interface gets altered by the Database architects to use a different method for getting the data we need.
@@ -84,81 +189,72 @@ class AccountingReport {&lt;/p&gt;
 &lt;p&gt;So, I hear you ask, what do we do? Well, let’s refactor again. First of all, let’s remove the dependency on a database at all.&lt;/p&gt;
 
 &lt;p&gt;Our class should not be interested in a database, it should only be concerned with data and shouldn’t care how it gets this data. For ease of argument we are just going to pass in an array of data but you could pass in different ReportData objects if needed. Our class now looks like the below:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight php"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;AccountingReport&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
 
-&lt;p&gt;```php?start_inline=true
-class AccountingReport {&lt;/p&gt;
+   &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[];&lt;/span&gt;
 
-&lt;p&gt;private $data = [];&lt;/p&gt;
+   &lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;__construct&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;array&lt;/span&gt; &lt;span class="nv"&gt;$data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;$data&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;      
+   &lt;span class="p"&gt;}&lt;/span&gt; 
 
-&lt;p&gt;public function __construct(array $data) {
-      $this-&amp;gt;data = $data;    &lt;br /&gt;
-   }&lt;/p&gt;
-
-&lt;p&gt;// Other methods hidden for brevity
-}
-```&lt;/p&gt;
-
+   &lt;span class="c1"&gt;// Other methods hidden for brevity
+&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Now our database dependency has gone, but what about the other 3 reasons to change above? This is where the fun begins…&lt;/p&gt;
 
 &lt;p&gt;We are going to use something called the Strategy pattern which will enable us to keep our base AccountingReport class SOLID. The Strategy pattern allows us to change the algorithms used by an object at runtime and to switch them in and out at will. To do this, we will create and pass in a Strategy object upon class instantiation.&lt;/p&gt;
 
 &lt;p&gt;In our case, the Strategy objects will be represented by different formatting objects. As such, our final base AccountingReport class will look as simple as the below:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight php"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;AccountingReport&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
 
-&lt;p&gt;```php?start_inline=true	
-class AccountingReport {&lt;/p&gt;
+   &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="nv"&gt;$data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[];&lt;/span&gt;
+   &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="nv"&gt;$formatter&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 
-&lt;p&gt;private $data = [];
-   private $formatter;&lt;/p&gt;
+   &lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;__construct&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;array&lt;/span&gt; &lt;span class="nv"&gt;$data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;ReportFormatter&lt;/span&gt; &lt;span class="nv"&gt;$formatter&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;$data&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;formatter&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;$formatter&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;      
+   &lt;span class="p"&gt;}&lt;/span&gt; 
 
-&lt;p&gt;public function __construct(array $data, ReportFormatter $formatter) {
-      $this-&amp;gt;data = $data;
-      $this-&amp;gt;formatter = $formatter;    &lt;br /&gt;
-   }&lt;/p&gt;
+   &lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;getFormattedData&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;formatter&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;data&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+   &lt;span class="p"&gt;}&lt;/span&gt;
 
-&lt;p&gt;public function getFormattedData() {
-      return $this-&amp;gt;formatter-&amp;gt;format($this-&amp;gt;data);
-   }&lt;/p&gt;
+   &lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;setFormatter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;ReportFormatter&lt;/span&gt; &lt;span class="nv"&gt;$formatter&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;formatter&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;$formatter&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+   &lt;span class="p"&gt;}&lt;/span&gt;
 
-&lt;p&gt;public function setFormatter(ReportFormatter $formatter) {
-      $this-&amp;gt;formatter = $formatter;
-   }&lt;/p&gt;
-
-&lt;p&gt;}
-```&lt;/p&gt;
-
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;That’s it! Our whole class is now reduced to just a constructor, a setFormatter() method to set our formatter at runtime and a getFormattedData() method that returns the data formatted just as we wanted in our initial class setup.&lt;/p&gt;
 
 &lt;p&gt;This class now meets our SOLID requirements as we now have no reason to open this class up again, it only really has one reason to change and still meets the Dependency Inversion Princple as all dependencies are now injected.&lt;/p&gt;
 
 &lt;p&gt;Now all that’s left do is create our ReportFormatter interface and our different Formatter classes (which are our strategy objects), for example:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight php"&gt;&lt;code&gt;&lt;span class="k"&gt;interface&lt;/span&gt; &lt;span class="nx"&gt;ReportFormatter&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+   &lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$data&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
 
-&lt;p&gt;```php?start_inline=true	
-interface ReportFormatter {
-   public function format($data);
-}&lt;/p&gt;
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;CsvFormatter&lt;/span&gt; &lt;span class="k"&gt;implements&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+   &lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="c1"&gt;// Functionality to turn data into CSV format
+&lt;/span&gt;   &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
 
-&lt;p&gt;class CsvFormatter implements {
-   public function format($data) {
-      // Functionality to turn data into CSV format
-   }
-}&lt;/p&gt;
-
-&lt;p&gt;class HtmlFormatter implements {
-   public function format($data) {
-      // Functionality to turn data into XML format
-   }
-}
-```&lt;/p&gt;
-
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;HtmlFormatter&lt;/span&gt; &lt;span class="k"&gt;implements&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+   &lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="c1"&gt;// Functionality to turn data into XML format
+&lt;/span&gt;   &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;The good news is that all our formatter classes also follow the SOLID principles, if the web designer wants us to change the Html format we simply need to edit the HtmlFormatter class (and nothing else), similarly for the accountant who wants the CSV data changed slightly we only need to edit the CsvFormatter class.&lt;/p&gt;
 
 &lt;p&gt;If we want to create a json format class then we only need to create a new Strategy formatting object and inject it.&lt;/p&gt;
 
 &lt;p&gt;Now, let’s see the code example to use it all:
-&lt;code&gt;php?start_inline=true
+&lt;code&gt;php
 $account_data = [
-   'john' =&amp;gt; ['salary' =&amp;gt; '50000', 'employment_type' =&amp;gt; 'full time'],
-   'bob' =&amp;gt; ['salary' =&amp;gt; '25000', 'employment_type' =&amp;gt; 'part time']
+   &amp;#39;john&amp;#39; =&amp;gt; [&amp;#39;salary&amp;#39; =&amp;gt; &amp;#39;50000&amp;#39;, &amp;#39;employment_type&amp;#39; =&amp;gt; &amp;#39;full time&amp;#39;],
+   &amp;#39;bob&amp;#39; =&amp;gt; [&amp;#39;salary&amp;#39; =&amp;gt; &amp;#39;25000&amp;#39;, &amp;#39;employment_type&amp;#39; =&amp;gt; &amp;#39;part time&amp;#39;]
 ];
 $report = new AccountReport($account_data, new HtmlFormatter);
 $html_data = $report-&amp;gt;format();
@@ -167,18 +263,6 @@ $csv_data = $report-&amp;gt;format();
 &lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;If you have any questions please let me know!&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>Example Article</title>
-    <link rel="alternate" href="http://blog.url.com/example-article/"/>
-    <id>http://blog.url.com/example-article/</id>
-    <published>2012-01-01T00:00:00+00:00</published>
-    <updated>2017-09-14T17:06:35+01:00</updated>
-    <author>
-      <name>Article Author</name>
-    </author>
-    <content type="html">&lt;p&gt;This is an example article. You probably want to delete it and write your own articles!&lt;/p&gt;
 </content>
   </entry>
 </feed>
