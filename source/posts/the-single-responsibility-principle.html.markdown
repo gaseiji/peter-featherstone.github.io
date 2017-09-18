@@ -4,7 +4,7 @@ date:   2017-09-14 16:41:21 +0100
 layout: "post"
 ---
 
-**The** _Single_ Responsibility Principle is the first principle mentioned in the famous SOLID methodology that we should try and follow whenever we build software. Building software in a SOLID way allows us to keep our code flexible, maintainable and most importantly of all – testable!
+The Single Responsibility Principle is the first principle mentioned in the famous SOLID methodology that we should try and follow whenever we build software. Building software in a SOLID way allows us to keep our code flexible, maintainable and most importantly of all – testable!
 
 The Single Responsibility Principle at heart is a very, very simple principle to understand and simply states that:
 
@@ -58,10 +58,10 @@ class AccountingReport {
 
 Much better, but alas! What does an accounting report have to do with a Database? This is where we should realise that the Single Responsibility Principle has been violated as the class will now have to change under the following circumstances:
 
-*Our database interface gets altered by the Database architects to use a different method for getting the data we need.
-*Our Api architects need to add a method for returning the data in JSON format.
-*Our website designers want to switch the HTML to be returned using tables instead of divs.
-*Our accounting department want the CSV table columns altered or a new one added.
+- Our database interface gets altered by the Database architects to use a different method for getting the data we need.
+- Our Api architects need to add a method for returning the data in JSON format.
+- Our website designers want to switch the HTML to be returned using tables instead of divs.
+- Our accounting department want the CSV table columns altered or a new one added.
 
 As you can see, we already have 4 reasons for this class to change and there are probably more hiding away in there! In addition, this also violates the Open/Closed Principle as if we want to add a new formatting option (such as JSON) then we have to open up this class again and alter it.
 
@@ -139,6 +139,7 @@ The good news is that all our formatter classes also follow the SOLID principles
 If we want to create a json format class then we only need to create a new Strategy formatting object and inject it.
 
 Now, let’s see the code example to use it all:
+
 ```php
 $account_data = [
    'john' => ['salary' => '50000', 'employment_type' => 'full time'],

@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
@@ -12,18 +12,20 @@
   </head>
   <body>
 
-  <nav>
-    <div class="container">
-      <div class="row">
-        <div class="twelve columns">
-          <ul class="navbar-list">
-            <li class="navbar-item"><a class="navbar-link" href"/">Home</a></li>
-            <li class="navbar-item"><a class="navbar-link" href"/about">About</a></li>
-          </ul>
+    <nav>
+      <div class="container">
+        <div class="row">
+          <div class="twelve columns">
+            <div id="logo">
+              <%= link_to 'Peter Featherstone', '/index.html' %>
+            </div>
+            <ul class="navbar-list">
+              <li class="navbar-item"><%= link_to 'Home', '/index.html' %></li><li class="navbar-item"><%= link_to 'About', '/about.html' %></li>
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
-  </nav>
+    </nav>
 
     <div id="main" role="main" class="container">
       <div class="row">
@@ -36,9 +38,14 @@
     <footer class="container">
       <div class="row">
         <div class="twelve columns">
-          Made with &hearts; by Me using <a href="https://middlemanapp.com/">Middleman</a> & hosted on <a href="https://pages.github.com/">GitHub Pages</a>.<br />
+          Static pages built using <%= link_to 'Middleman', 'https://middlemanapp.com/' %> & hosted on <%= link_to 'GitHub Pages', 'https://pages.github.com/' %>.<br />
+          Find me on <%= link_to 'GitHub', 'https://github.com/peter-featherstone' %>, 
+          <%= link_to 'StackOverflow', 'https://stackoverflow.com/users/1836618/peter-featherstone' %>,
+          <%= link_to 'Twitter', 'https://twitter.com/PlumaPiedra' %>
+           or via <%= link_to 'Email', 'mailto:hello@peterfeatherstone.com' %>.
         </div>
       </div>
     </footer>
+
   </body>
 </html>

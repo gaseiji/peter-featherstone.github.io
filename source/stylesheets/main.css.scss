@@ -13,3 +13,38 @@ footer.container {
 	top: 15px;
 	right: 15px;
 }
+
+nav {
+	border-bottom: 2px solid #F1F1F1;
+	margin-bottom: 25px;
+	#logo {
+		font-size: 24px;
+		font-weight: lighter;
+	}
+	#logo,
+	ul,
+	li,
+	a {
+		display: inline-block;
+		margin: 0;
+		line-height: 48px;
+	}
+	ul {
+		text-align: right;
+		float: right;
+	}
+	li a {
+		padding: 0 15px;
+		&:hover {
+			background: #F1F1F1;
+		}
+	}
+	li a,
+	#logo a {
+		text-decoration: none;
+	}
+}
+
+h1 {
+	font-weight: normal;
+}
