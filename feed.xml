@@ -114,11 +114,11 @@
     <link rel="alternate" href="http://blog.url.com/the-single-responsibility-principle/"/>
     <id>http://blog.url.com/the-single-responsibility-principle/</id>
     <published>2017-09-14T16:41:21+01:00</published>
-    <updated>2017-09-15T16:00:08+01:00</updated>
+    <updated>2017-09-18T21:42:42+01:00</updated>
     <author>
       <name>Article Author</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;strong&gt;The&lt;/strong&gt; &lt;em&gt;Single&lt;/em&gt; Responsibility Principle is the first principle mentioned in the famous SOLID methodology that we should try and follow whenever we build software. Building software in a SOLID way allows us to keep our code flexible, maintainable and most importantly of all – testable!&lt;/p&gt;
+    <content type="html">&lt;p&gt;The Single Responsibility Principle is the first principle mentioned in the famous SOLID methodology that we should try and follow whenever we build software. Building software in a SOLID way allows us to keep our code flexible, maintainable and most importantly of all – testable!&lt;/p&gt;
 
 &lt;p&gt;The Single Responsibility Principle at heart is a very, very simple principle to understand and simply states that:&lt;/p&gt;
 
@@ -168,10 +168,12 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Much better, but alas! What does an accounting report have to do with a Database? This is where we should realise that the Single Responsibility Principle has been violated as the class will now have to change under the following circumstances:&lt;/p&gt;
 
-&lt;p&gt;*Our database interface gets altered by the Database architects to use a different method for getting the data we need.
-*Our Api architects need to add a method for returning the data in JSON format.
-*Our website designers want to switch the HTML to be returned using tables instead of divs.
-*Our accounting department want the CSV table columns altered or a new one added.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Our database interface gets altered by the Database architects to use a different method for getting the data we need.&lt;/li&gt;
+&lt;li&gt;Our Api architects need to add a method for returning the data in JSON format.&lt;/li&gt;
+&lt;li&gt;Our website designers want to switch the HTML to be returned using tables instead of divs.&lt;/li&gt;
+&lt;li&gt;Our accounting department want the CSV table columns altered or a new one added.&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;As you can see, we already have 4 reasons for this class to change and there are probably more hiding away in there! In addition, this also violates the Open/Closed Principle as if we want to add a new formatting option (such as JSON) then we have to open up this class again and alter it.&lt;/p&gt;
 
@@ -239,18 +241,16 @@
 
 &lt;p&gt;If we want to create a json format class then we only need to create a new Strategy formatting object and inject it.&lt;/p&gt;
 
-&lt;p&gt;Now, let’s see the code example to use it all:
-&lt;code&gt;php
-$account_data = [
-   &amp;#39;john&amp;#39; =&amp;gt; [&amp;#39;salary&amp;#39; =&amp;gt; &amp;#39;50000&amp;#39;, &amp;#39;employment_type&amp;#39; =&amp;gt; &amp;#39;full time&amp;#39;],
-   &amp;#39;bob&amp;#39; =&amp;gt; [&amp;#39;salary&amp;#39; =&amp;gt; &amp;#39;25000&amp;#39;, &amp;#39;employment_type&amp;#39; =&amp;gt; &amp;#39;part time&amp;#39;]
-];
-$report = new AccountReport($account_data, new HtmlFormatter);
-$html_data = $report-&amp;gt;format();
-$report-&amp;gt;setFormatter(new CsvFormatter);
-$csv_data = $report-&amp;gt;format();
-&lt;/code&gt;&lt;/p&gt;
-
+&lt;p&gt;Now, let’s see the code example to use it all:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight php"&gt;&lt;code&gt;&lt;span class="nv"&gt;$account_data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+   &lt;span class="s1"&gt;'john'&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'salary'&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s1"&gt;'50000'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'employment_type'&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s1"&gt;'full time'&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+   &lt;span class="s1"&gt;'bob'&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'salary'&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s1"&gt;'25000'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'employment_type'&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s1"&gt;'part time'&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;];&lt;/span&gt;
+&lt;span class="nv"&gt;$report&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;AccountReport&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$account_data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;HtmlFormatter&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="nv"&gt;$html_data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;$report&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;format&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="nv"&gt;$report&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;setFormatter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;CsvFormatter&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="nv"&gt;$csv_data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;$report&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;format&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;If you have any questions please let me know!&lt;/p&gt;
 </content>
   </entry>
