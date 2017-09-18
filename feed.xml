@@ -5,21 +5,10 @@
   <id>http://blog.url.com/</id>
   <link href="http://blog.url.com/"/>
   <link href="http://blog.url.com/feed.xml" rel="self"/>
-  <updated>2017-09-15T17:16:00+01:00</updated>
+  <updated>2017-09-15T15:08:00+01:00</updated>
   <author>
     <name>Blog Author</name>
   </author>
-  <entry>
-    <title>About</title>
-    <link rel="alternate" href="http://blog.url.com/about/"/>
-    <id>http://blog.url.com/about/</id>
-    <published>2017-09-15T17:16:00+01:00</published>
-    <updated>2017-09-15T17:18:38+01:00</updated>
-    <author>
-      <name>Article Author</name>
-    </author>
-    <content type="html"></content>
-  </entry>
   <entry>
     <title>What is Polymorphism</title>
     <link rel="alternate" href="http://blog.url.com/what-is-polymorphism/"/>
